@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Frontend",
+      "runtimeExecutable": "C:\\Users\\cvillanueva\\AppData\\Local\\Temp\\node-v22.16.0-win-x64\\node.exe",
+      "runtimeArgs": ["C:\\Users\\cvillanueva\\OneDrive - Ingenieria Civil Vicente S.A\\Escritorio\\Proyecto de Planificación de Asignaturas\\frontend\\node_modules\\.bin\\vite", "--port", "5173", "--host"],
+      "port": 5173,
+      "cwd": "C:\\Users\\cvillanueva\\OneDrive - Ingenieria Civil Vicente S.A\\Escritorio\\Proyecto de Planificación de Asignaturas\\frontend"
+    }
+  ]
+}
