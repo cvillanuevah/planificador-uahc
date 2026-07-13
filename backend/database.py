@@ -24,17 +24,21 @@ if _LAKEBASE_ENDPOINT:
     _LB_PORT = int(os.environ.get("PGPORT") or os.environ.get("LAKEBASE_PORT", "5432"))
     _LB_DB   = os.environ.get("PGDATABASE") or os.environ.get("LAKEBASE_DB", "postgres")
     _LB_SSL  = os.environ.get("PGSSLMODE", "require")
-    _LB_USER = os.environ.get("PGUSER") or os.environ.get("LAKEBASE_USER", "")
 
     from databricks.sdk import WorkspaceClient
     _sdk_client = WorkspaceClient()
 
-    # Resolve user lazily if not injected by platform
+    # Always use the SDK's app-owner identity for DB connections so all requests
+    # share the same Lakebase user — avoids "permission denied" when the platform
+    # injects PGUSER as the visiting user (different from the table owner).
+    _LB_USER = os.environ.get("LAKEBASE_USER", "")
     if not _LB_USER:
         try:
-            _LB_USER = _sdk_client.current_user.me().user_name or "token"
+            _LB_USER = _sdk_client.current_user.me().user_name or ""
         except Exception:
-            _LB_USER = "token"
+            pass
+    if not _LB_USER:
+        _LB_USER = os.environ.get("PGUSER", "token")
 
     def _get_lakebase_token():
         try:

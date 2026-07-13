@@ -5,3 +5,5 @@ env:
     valueFrom: postgres
   - name: LAKEBASE_INSTANCE
     value: planificador-uahc
+  - name: LAKEBASE_USER
+    value: cvillanueva.her@gmail.com
