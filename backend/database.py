@@ -28,17 +28,15 @@ if _LAKEBASE_ENDPOINT:
     from databricks.sdk import WorkspaceClient
     _sdk_client = WorkspaceClient()
 
-    # Always use the SDK's app-owner identity for DB connections so all requests
-    # share the same Lakebase user — avoids "permission denied" when the platform
-    # injects PGUSER as the visiting user (different from the table owner).
-    _LB_USER = os.environ.get("LAKEBASE_USER", "")
+    # Use platform-injected PGUSER (app service principal ID) — must match the
+    # identity that generate_database_credential uses, otherwise Lakebase rejects
+    # the token with "OAuth: User is not authorized".
+    _LB_USER = os.environ.get("PGUSER", "")
     if not _LB_USER:
         try:
-            _LB_USER = _sdk_client.current_user.me().user_name or ""
+            _LB_USER = _sdk_client.current_user.me().user_name or "token"
         except Exception:
-            pass
-    if not _LB_USER:
-        _LB_USER = os.environ.get("PGUSER", "token")
+            _LB_USER = "token"
 
     def _get_lakebase_token():
         try:
