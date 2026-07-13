@@ -1,8 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    'C:/Users/cvillanueva/OneDrive - Ingenieria Civil Vicente S.A/Escritorio/Proyecto de Planificación de Asignaturas/frontend/index.html',
-    'C:/Users/cvillanueva/OneDrive - Ingenieria Civil Vicente S.A/Escritorio/Proyecto de Planificación de Asignaturas/frontend/src/**/*.{js,ts,jsx,tsx}',
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
