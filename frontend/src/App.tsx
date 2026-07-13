@@ -9,7 +9,7 @@ import Configuracion from './pages/Configuracion'
 
 export default function App() {
   return (
-    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+    <BrowserRouter basename={import.meta.env.BASE_URL} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/"               element={<Dashboard />} />
