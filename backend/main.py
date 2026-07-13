@@ -79,6 +79,34 @@ def health():
     }
 
 
+@app.get("/api/admin/debug")
+def admin_debug():
+    """Diagnostic: show DB env vars and SDK user identity."""
+    import os
+    info = {
+        "PGHOST": os.environ.get("PGHOST"),
+        "PGPORT": os.environ.get("PGPORT"),
+        "PGDATABASE": os.environ.get("PGDATABASE"),
+        "PGUSER": os.environ.get("PGUSER"),
+        "PGSSLMODE": os.environ.get("PGSSLMODE"),
+        "LAKEBASE_ENDPOINT": os.environ.get("LAKEBASE_ENDPOINT"),
+        "LAKEBASE_INSTANCE": os.environ.get("LAKEBASE_INSTANCE"),
+        "LAKEBASE_USER": os.environ.get("LAKEBASE_USER"),
+        "LAKEBASE_HOST": os.environ.get("LAKEBASE_HOST"),
+    }
+    if _routers_ok:
+        try:
+            from database import _sdk_client, _LB_USER, _LB_HOST, _LB_PORT, _LB_DB
+            info["sdk_user"] = _sdk_client.current_user.me().user_name
+            info["_LB_USER"] = _LB_USER
+            info["_LB_HOST"] = _LB_HOST
+            info["_LB_PORT"] = _LB_PORT
+            info["_LB_DB"] = _LB_DB
+        except Exception as e:
+            info["sdk_error"] = str(e)
+    return info
+
+
 @app.get("/api/admin/seed")
 def admin_seed():
     """Manually trigger seed — use when startup seed failed."""
