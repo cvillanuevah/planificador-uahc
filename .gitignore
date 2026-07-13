@@ -40,7 +40,5 @@ npm-debug.log*
 Thumbs.db
 desktop.ini
 
-# Databricks App static build (generated, not committed)
-backend/static/
 # Databricks bundle state
 .databricks/
