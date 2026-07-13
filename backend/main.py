@@ -71,7 +71,31 @@ if _routers_ok:
 
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    return {
+        "status": "ok",
+        "import_error": _import_error,
+        "startup_error": _startup_error,
+        "routers_ok": _routers_ok,
+    }
+
+
+@app.get("/api/admin/seed")
+def admin_seed():
+    """Manually trigger seed — use when startup seed failed."""
+    if not _routers_ok:
+        return {"ok": False, "error": "Routers not loaded", "detail": _import_error}
+    try:
+        models.Base.metadata.create_all(bind=engine)
+        db = SessionLocal()
+        try:
+            seed_initial_data(db)
+        finally:
+            db.close()
+        return {"ok": True, "message": "Seed completed successfully"}
+    except Exception:
+        err = traceback.format_exc()
+        print("ADMIN SEED ERROR:", err, flush=True)
+        return {"ok": False, "error": err}
 
 
 
