@@ -401,7 +401,7 @@ function AssignmentPanel({
                           </div>
                           <div className="flex items-center gap-1 flex-shrink-0 mt-0.5">
                             {hasConflict && (
-                              <AlertTriangle size={12} className="text-red-400 flex-shrink-0" title="Conflicto de horario detectado" />
+                              <AlertTriangle size={12} className="text-red-400 flex-shrink-0" aria-label="Conflicto de horario detectado" />
                             )}
                             <RoomIcon size={12} className="text-slate-500" />
                             <button
