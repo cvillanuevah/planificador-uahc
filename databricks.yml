@@ -1,0 +1,21 @@
+bundle:
+  name: planificador-uahc
+
+workspace:
+  host: https://dbc-0023d78e-9948.cloud.databricks.com
+  profile: DEFAULT
+
+targets:
+  default:
+    resources:
+      apps:
+        planificador-uahc:
+          name: planificador-uahc
+          description: "Planificador de Asignaturas UAHC"
+          source_code_path: ./backend
+          resources:
+            - name: postgres
+              postgres:
+                branch: projects/planificador-uahc/branches/production
+                database: projects/planificador-uahc/branches/production/databases/db-36ib-qmi5v54igx
+                permission: CAN_CONNECT_AND_CREATE

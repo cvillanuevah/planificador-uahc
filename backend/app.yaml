@@ -1,0 +1,7 @@
+command: ["python", "main.py"]
+
+env:
+  - name: LAKEBASE_ENDPOINT
+    valueFrom: postgres
+  - name: LAKEBASE_INSTANCE
+    value: planificador-uahc
