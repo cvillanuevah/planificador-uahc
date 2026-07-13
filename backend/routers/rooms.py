@@ -7,12 +7,12 @@ from database import get_db
 router = APIRouter()
 
 
-@router.get("/", response_model=List[schemas.RoomOut])
+@router.get("", response_model=List[schemas.RoomOut])
 def list_rooms(db: Session = Depends(get_db)):
     return db.query(models.Room).all()
 
 
-@router.post("/", response_model=schemas.RoomOut, status_code=201)
+@router.post("", response_model=schemas.RoomOut, status_code=201)
 def create_room(data: schemas.RoomCreate, db: Session = Depends(get_db)):
     room = models.Room(**data.model_dump())
     db.add(room)

@@ -7,12 +7,12 @@ from database import get_db
 router = APIRouter()
 
 
-@router.get("/", response_model=List[schemas.ProfessorOut])
+@router.get("", response_model=List[schemas.ProfessorOut])
 def list_professors(db: Session = Depends(get_db)):
     return db.query(models.Professor).filter_by(is_active=True).order_by(models.Professor.name).all()
 
 
-@router.post("/", response_model=schemas.ProfessorOut, status_code=201)
+@router.post("", response_model=schemas.ProfessorOut, status_code=201)
 def create_professor(data: schemas.ProfessorCreate, db: Session = Depends(get_db)):
     prof = models.Professor(**data.model_dump())
     db.add(prof)

@@ -18,13 +18,13 @@ def _build_out(sem: models.AcademicSemester) -> dict:
     }
 
 
-@router.get("/", response_model=List[schemas.AcademicSemesterOut])
+@router.get("", response_model=List[schemas.AcademicSemesterOut])
 def list_semesters(db: Session = Depends(get_db)):
     sems = db.query(models.AcademicSemester).order_by(models.AcademicSemester.year.desc(), models.AcademicSemester.period.desc()).all()
     return [_build_out(s) for s in sems]
 
 
-@router.post("/", response_model=schemas.AcademicSemesterOut, status_code=201)
+@router.post("", response_model=schemas.AcademicSemesterOut, status_code=201)
 def create_semester(data: schemas.AcademicSemesterCreate, db: Session = Depends(get_db)):
     if db.query(models.AcademicSemester).filter_by(label=data.label).first():
         raise HTTPException(400, f"Ya existe el semestre {data.label}")

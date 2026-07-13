@@ -7,7 +7,7 @@ from database import get_db
 router = APIRouter()
 
 
-@router.get("/", response_model=List[schemas.BlockOut])
+@router.get("", response_model=List[schemas.BlockOut])
 def list_blocks(db: Session = Depends(get_db)):
     return db.query(models.Block).order_by(models.Block.number).all()
 

@@ -7,7 +7,7 @@ from database import get_db
 router = APIRouter()
 
 
-@router.get("/", response_model=List[schemas.SubjectOut])
+@router.get("", response_model=List[schemas.SubjectOut])
 def list_subjects(
     curriculum_semester: Optional[int] = Query(None),
     db: Session = Depends(get_db),
@@ -18,7 +18,7 @@ def list_subjects(
     return q.order_by(models.Subject.curriculum_semester, models.Subject.formation_line, models.Subject.name).all()
 
 
-@router.post("/", response_model=schemas.SubjectOut, status_code=201)
+@router.post("", response_model=schemas.SubjectOut, status_code=201)
 def create_subject(data: schemas.SubjectCreate, db: Session = Depends(get_db)):
     subj = models.Subject(**data.model_dump())
     db.add(subj)

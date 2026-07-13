@@ -82,6 +82,9 @@ if _static_dir.exists():
 
     @app.get("/{full_path:path}")
     def serve_frontend(full_path: str):
+        if full_path.startswith("api/"):
+            from fastapi import HTTPException
+            raise HTTPException(status_code=404, detail="Not found")
         index = _static_dir / "index.html"
         return FileResponse(str(index))
 else:
