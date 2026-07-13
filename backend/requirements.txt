@@ -4,5 +4,5 @@ sqlalchemy==2.0.30
 pydantic==2.7.1
 python-multipart==0.0.9
 psycopg2-binary==2.9.9
-databricks-sdk>=0.28.0
+databricks-sdk>=0.40.0
 python-dotenv>=1.0.0

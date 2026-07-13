@@ -36,17 +36,33 @@ if _LAKEBASE_ENDPOINT:
         except Exception:
             _LB_USER = "token"
 
+    def _get_lakebase_token():
+        try:
+            # SDK >= 0.40.0
+            cred = _sdk_client.database.generate_database_credential(
+                request_id=str(uuid.uuid4()),
+                instance_names=[_LAKEBASE_INSTANCE],
+            )
+            return cred.token
+        except AttributeError:
+            # Fallback: raw REST API
+            result = _sdk_client.api_client.do(
+                "POST",
+                "/api/2.0/database/credential",
+                body={
+                    "request_id": str(uuid.uuid4()),
+                    "instance_names": [_LAKEBASE_INSTANCE],
+                },
+            )
+            return result.get("token") or result.get("access_token", "")
+
     def _lakebase_creator():
-        cred = _sdk_client.database.generate_database_credential(
-            request_id=str(uuid.uuid4()),
-            instance_names=[_LAKEBASE_INSTANCE],
-        )
         return psycopg2.connect(
             host=_LB_HOST,
             port=_LB_PORT,
             dbname=_LB_DB,
             user=_LB_USER,
-            password=cred.token,
+            password=_get_lakebase_token(),
             sslmode=_LB_SSL,
         )
 
